@@ -53,38 +53,38 @@ zotero.Stream.defaults.protocol = 'http';
 // Start server
 var defer = Promise.defer();
 require('../server')(function () {
-	defer.resolve();
+  defer.resolve();
 });
 
 
 describe('Streamer Tests:', function () {
 
-	// Wait for server initialization
-	// TODO: Emit an event for this
-	before(function (done) {
-		defer.promise.then(function () {
-			done();
-		});
-	});
+  // Wait for server initialization
+  // TODO: Emit an event for this
+  before(function (done) {
+    defer.promise.then(function () {
+      done();
+    });
+  });
 
-	beforeEach(assertionCount.reset);
-	afterEach(assertionCount.check);
+  beforeEach(assertionCount.reset);
+  afterEach(assertionCount.check);
 
-	//
-	//
-	// Single-key requests
-	//
-	//
-	describe('Single-key event stream', function () {
-		it('should connect', function (done) {
+  //
+  //
+  // Single-key requests
+  //
+  //
+  describe('Single-key event stream', function () {
+    it('should connect', function (done) {
       (new zotero.Stream())
         .on('open', function () {
           this.close();
           done();
         });
-		});
+    });
 
-		it('should include a retry value', function (done) {
+    it('should include a retry value', function (done) {
       (new zotero.Stream())
         .on('connected', function (data) {
           assert.equal(data.retry, config.get('retryTime') * 1000);
@@ -92,10 +92,10 @@ describe('Streamer Tests:', function () {
           this.close();
           done();
         });
-		});
+    });
 
-		it('should reject unknown API keys', function (done) {
-			var apiKey = 'INVALID' + makeAPIKey().substr(7);
+    it('should reject unknown API keys', function (done) {
+      var apiKey = 'INVALID' + makeAPIKey().substr(7);
 
       (new zotero.Stream({ apiKey: apiKey }))
         .on('close', function (code, reason) {
@@ -105,10 +105,10 @@ describe('Streamer Tests:', function () {
           clearTimeout(this.retry.timeout);
           done();
         });
-		});
+    });
 
     describe('given a valid key', function () {
-			var apiKey, topics;
+      var apiKey, topics;
 
       beforeEach(function () {
         apiKey = makeAPIKey();
@@ -188,14 +188,14 @@ describe('Streamer Tests:', function () {
       });
     });
 
-	});
+  });
 
 
-	//
-	//
-	// Multi-key requests
-	//
-	//
-	describe('Multi-key event stream', function () {
-	});
+  //
+  //
+  // Multi-key requests
+  //
+  //
+  describe('Multi-key event stream', function () {
+  });
 });
